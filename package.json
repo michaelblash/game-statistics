@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "RESTful game statistics server",
   "main": "app.js",
-  "dependencies": {},
+  "dependencies": {
+    "pg": "^6.1.5"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
