@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Test Stat Server</title>
+</head>
+<body>
+  <h1>Test Game Statistics Server</h1>
+  <form id="main-form">
+    <div>
+      <input type="text" name="url" placeholder="URL">
+    </div>
+    <div>
+      <textarea name="body" placeholder="Request Body"></textarea>
+    </div>
+    <div>
+      <input type="submit">
+    </div>
+    <div class="result-wrap">
+      <span class="result"></span>
+    </div>
+  </form>
+  <script>
+    var form = document.getElementById("main-form");
+    var textArea = form.body;
+
+    var resultSpan = form.querySelector(".result");
+    form.onsubmit = function(event) {
+      resultSpan.textContent = "";
+      event.preventDefault();
+      var url = this.url;
+      var xhr = new XMLHttpRequest();
+      xhr.open("PUT", url.value, true);
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      xhr.onreadystatechange = function() {
+        if (this.readyState != 4) return;
+        resultSpan.textContent = this.status + " " + this.responseText;
+      };
+      xhr.send(textArea.value);
+    };
+  </script>
+</body>
+</html>
