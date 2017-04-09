@@ -37,7 +37,7 @@ module.exports = {
       res.end('ITS OKAY');
     },
     '/servers/:endpoint/info': function(req, res, endpoint) {
-      routes.serverInfo(req, res, endpoint, sendError);
+      routes.serverInfo.put(req, res, endpoint, sendError.bind(null, res));
     },
     '/servers/:endpoint/matches/:timestamp':
       function(req, res, endpoint, timestamp) {

@@ -1,6 +1,6 @@
 const pool = require('lib/postgres');
 
-module.exports = function(req, res, endpoint, next) {
+exports.put = function(req, res, endpoint, next) {
   console.log(endpoint);
   let pattern = /^(\d{1,3}(?:\.\d{1,3}){3}):(\d{1,5})$/;
   let endpointPieces = endpoint.match(pattern);
@@ -12,11 +12,12 @@ module.exports = function(req, res, endpoint, next) {
     req.setEncoding('utf8');
     req.on('data', chunk => body += chunk);
     req.on('end', () => {
-      resolve(JSON.parse(body));
-      /*
-      for (let p in obj) console.log(`prop: ${p} value: ${obj[p]}`);
-      res.end();
-      */
+      try {
+        let serverInfo = JSON.parse(body);
+        resolve(serverInfo);
+      } catch (e) {
+        reject(e);
+      }
     });
   });
   p.then(response => new Promise((resolve, reject) => {
@@ -27,14 +28,21 @@ module.exports = function(req, res, endpoint, next) {
           [],
           (err, result) => {
             if (err) reject(err);
-            resolve();
+            resolve(result);
         });
       }).then(response => {
-        resolve();
+        resolve(response);
       });
     });
-  })
+  }),
+  error => {
+    next(error);
+  }
   ).then(response => {
-    res.end();
+    res.end(response);
   });
+};
+
+exports.get = function () {
+
 };
