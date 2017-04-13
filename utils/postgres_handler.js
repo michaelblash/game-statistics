@@ -8,9 +8,7 @@ module.exports = function(dbReq, callback) {
     }
     client.query(dbReq, [], function(err, result) {
       done(err);
-      if(err) {
-        return callback(err);
-      }
+      if(err) return callback(err);
       callback(null, result);
     });
   });

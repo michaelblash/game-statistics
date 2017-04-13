@@ -3,26 +3,64 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Test Stat Server</title>
+  <style>
+    .half {
+      display: inline-block;
+      height: 400px;
+      width: 45%;
+      vertical-align: top;
+    }
+    textarea {
+      padding: 10px;
+      width: 95%;
+      resize: none;
+      height: 95%;
+      color: #FF0;
+      font-family:  Courier, Monospace;
+      font-size: 18px;
+      background-color: #222;
+      white-space: pre;
+    }
+    .input-json {
+      padding: 10px;
+    }
+    .output-json {
+      height: 95%;
+      padding: 15px 10px;
+      white-space: pre;
+      color: #bbb;
+      font-family: "Courier New", Monospace;
+      background-color: #020;
+      overflow: scroll;
+    }
+  </style>
 </head>
 <body>
   <h1>Test Game Statistics Server</h1>
   <form id="main-form">
     <div>
-      <input type="text" name="url" placeholder="URL">
+      <input type="text" name="url" placeholder="URL" size="40">
     </div>
-    <div>
-      <textarea name="body" placeholder="Request Body"></textarea>
-    </div>
-    <div>
-      <input type="submit">
-    </div>
+    <div class="wrapper">
+      <div class="half">
+        <textarea name="body" placeholder="PUT JSON" spellcheck="false"></textarea>
+        <input type="submit" value="PUT">
+      </div>
+      <div class="half">
+        <div class="output-json result">
+        </div>
+        <button type="button" id="btn-get">GET</button>
+      </div>
+      
+      </div>
     <div class="result-wrap">
-      <span class="result"></span>
+      <span></span>
     </div>
   </form>
   <script>
-    var form = document.getElementById("main-form");
-    var textArea = form.body;
+    var form = document.getElementById("main-form"),
+        textArea = form.body,
+        btnGet = document.getElementById("btn-get");
 
     var resultSpan = form.querySelector(".result");
     form.onsubmit = function(event) {
@@ -37,6 +75,26 @@
         resultSpan.textContent = this.status + " " + this.responseText;
       };
       xhr.send(textArea.value);
+    };
+    textArea.onkeydown = function(event) {
+      if (event.key === "Tab") {
+        event.preventDefault();
+        this.value += "  ";
+      }
+    };
+
+    btnGet.onclick = function(event) {
+      resultSpan.textContent = "";
+      var url = this.form.url;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url.value, true);
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      xhr.onreadystatechange = function() {
+        if (this.readyState != 4) return;
+        resultSpan.textContent = this.status + "\n\n" + this.responseText;
+
+      };
+      xhr.send();
     };
   </script>
 </body>

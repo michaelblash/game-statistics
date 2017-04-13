@@ -10,7 +10,7 @@ module.exports = {
 
     },
     '/servers/:endpoint/info': function(req, res, endpoint) {
-
+      routes.serverInfo.get(req, res, endpoint, sendError.bind(null, res));
     },
     '/servers/:endpoint/matches/:timestamp':
       function(req, res, endpoint, timestamp) {
