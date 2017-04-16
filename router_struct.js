@@ -1,5 +1,9 @@
 const routes = require('./routes');
 const sendError = require('./error').sendError;
+const HttpError = require('./error').HttpError;
+const parseEndpoint = require('utils').parseEndpoint;
+const checkTimestamp = require('utils').checkTimestamp;
+
 
 module.exports = {
   'GET': {
@@ -10,7 +14,14 @@ module.exports = {
 
     },
     '/servers/:endpoint/info': function(req, res, endpoint) {
-      routes.serverInfo.get(req, res, endpoint, sendError.bind(null, res));
+      endpoint = parseEndpoint(endpoint);
+      if (!endpoint) {
+        sendError(res, new HttpError(404));
+        return;
+      }
+      routes.serverInfo.get(
+        req, res, endpoint, sendError.bind(null, res)
+      );
     },
     '/servers/:endpoint/matches/:timestamp':
       function(req, res, endpoint, timestamp) {
@@ -37,11 +48,31 @@ module.exports = {
       res.end('ITS OKAY');
     },
     '/servers/:endpoint/info': function(req, res, endpoint) {
-      routes.serverInfo.put(req, res, endpoint, sendError.bind(null, res));
+      endpoint = parseEndpoint(endpoint);
+      if (!endpoint) {
+        sendError(res, new HttpError(404));
+        return;
+      }
+      routes.serverInfo.put(
+        req, res, endpoint, sendError.bind(null, res)
+      );
     },
     '/servers/:endpoint/matches/:timestamp':
       function(req, res, endpoint, timestamp) {
-
+        endpoint = parseEndpoint(endpoint);
+        if (!endpoint) {
+          sendError(res, new HttpError(400, 'Incorrect endpoint'));
+          return;
+        }
+        timestamp = checkTimestamp(timestamp);
+        if (!timestamp) {
+          sendError(res, new HttpError(400, 'Incorrect timestamp'));
+          return;
+        }
+        routes.matchResult.put(
+          req, res, endpoint, timestamp,
+          sendError.bind(null, res)
+        );
       }
   }
 };
