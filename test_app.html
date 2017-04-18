@@ -77,9 +77,33 @@
       xhr.send(textArea.value);
     };
     textArea.onkeydown = function(event) {
+      var indentation = "  ",
+          selStart,
+          selEnd,
+          oldValue,
+          selValue,
+          i,
+          counter = 0;
       if (event.key === "Tab") {
         event.preventDefault();
-        this.value += "  ";
+        selStart = this.selectionStart;
+        selEnd = this.selectionEnd;
+        oldValue = this.value;
+        selValue = oldValue.slice(selStart, selEnd);
+        for (i = selValue.length; i--;) {
+          if (selValue[i] === "\n") {
+            selValue = selValue.slice(0, i + 1) + indentation + selValue.slice(i + 1);
+            counter++;
+          }
+        }
+        if (counter) {
+          this.value = oldValue.slice(0, selStart) + indentation + selValue + oldValue.slice(selEnd);
+          this.selectionStart = selStart;
+          this.selectionEnd = selEnd + (counter + 1) * indentation.length;
+        } else {
+          this.value = oldValue.slice(0, selStart) + indentation + oldValue.slice(selEnd);
+          this.selectionStart = this.selectionEnd = selStart + (counter + 1) * indentation.length;
+        }
       }
     };
 
