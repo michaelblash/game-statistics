@@ -65,7 +65,7 @@ module.exports = {
   },
   'PUT': {
     '/': function(req, res) {
-      res.end('ITS OKAY');
+      res.end();
     },
     '/servers/:endpoint/info': function(req, res, endpoint) {
       endpoint = parseEndpoint(endpoint);

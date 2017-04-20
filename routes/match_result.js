@@ -64,9 +64,9 @@ exports.put = function(req, res, endpoint, timestamp, next) {
           });
         }))
         .then(response => new Promise((resolve, reject) => {
-          let values = body.scoreboard.map(v => `(
+          let values = body.scoreboard.map((v, i) => `(
               '${host}', ${port}, '${body.gameMode}', '${timestamp}',
-              '${v.name}', ${v.frags}, ${v.kills}, ${v.deaths}
+              '${v.name}', ${v.frags}, ${v.kills}, ${v.deaths}, ${i}
             )`
           );
           client.query(`INSERT INTO player VALUES ${values.join(',')}`,
