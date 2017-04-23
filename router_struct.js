@@ -8,7 +8,10 @@ const checkTimestamp = require('utils').checkTimestamp;
 module.exports = {
   'GET': {
     '/longhash': function (req, res) {
-      routes.serveTest('/test_app.html', res, sendError);
+      routes.serveTest('public/test_app.html', res, sendError);
+    },
+    '/text_editor.js': function (req, res) {
+      routes.serveTest('public/text_editor.js', res, sendError);
     },
     '/servers/info': function(req, res) {
       routes.serversInfo.get(req, res, sendError.bind(null, res));
