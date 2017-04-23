@@ -54,7 +54,9 @@ module.exports = {
       );
     },
     '/players/:name/stats': function(req, res, name) {
-
+      routes.playerStats.get(
+        req, res, name, sendError.bind(null, res)
+      );
     },
     '/reports/recent-matches': function(req, res) {
       routes.recentMatches(req, res, sendError);
