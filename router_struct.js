@@ -7,10 +7,11 @@ const checkTimestamp = require('utils').checkTimestamp;
 
 module.exports = {
   'GET': {
-    '/longhash': function (req, res) {
+    '/': function (req, res) {
       routes.serveTest('public/test_app.html', res, sendError);
     },
-    '/text_editor.js': function (req, res) {
+    '/static/:file': routes.serveStatic(req, res, file),
+    function (req, res) {
       routes.serveTest('public/text_editor.js', res, sendError);
     },
     '/servers/info': function(req, res) {
@@ -57,16 +58,7 @@ module.exports = {
       routes.playerStats.get(
         req, res, name, sendError.bind(null, res)
       );
-    },
-    '/reports/recent-matches': function(req, res) {
-      routes.recentMatches(req, res, sendError);
     }
-    /*
-    '/reports/best-players': bestPlayers,
-    '/reports/popular-servers': popularServers,
-    '/reports/recent-matches/:count': recentMatches,
-    '/reports/best-players/:count': bestPlayers,
-    '/reports/popular-servers/:count': popularServers*/
   },
   'PUT': {
     '/': function(req, res) {

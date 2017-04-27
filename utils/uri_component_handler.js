@@ -2,7 +2,7 @@ exports.parseEndpoint = parseEndpoint;
 exports.checkTimestamp = checkTimestamp;
 
 function parseEndpoint(endpoint) {
-  let pattern = /^(\d{1,3}(?:\.\d{1,3}){3}):(\d{1,5})$/;
+  let pattern = /^(\d{1,3}(?:\.\d{1,3}){3})-(\d{1,5})$/;
   let endpointPieces = endpoint.match(pattern);
   if (endpointPieces) {
     return {

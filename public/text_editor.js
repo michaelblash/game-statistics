@@ -1,3 +1,8 @@
+/**
+ * Text Editor component which can be used as a handful
+ * browser-embedded text editor.
+ */
+
 function TextEditor(options) {
   var elem = options.elem,
       tab = options.tab;

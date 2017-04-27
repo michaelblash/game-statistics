@@ -3,6 +3,30 @@ const pgRequest = require('utils/postgres_handler');
 const HttpError = require('error').HttpError;
 const utils = require('utils');
 
+exports.get = function (req, res, endpoint, next) {
+  let host = endpoint.host,
+      port = endpoint.port;
+  pgRequest(`SELECT server.name, server_mode.mode
+     FROM server, server_mode WHERE server.adr = server_mode.server_adr
+     AND server.port = server_mode.server_port
+     AND server.adr = '${host}' AND server.port = ${port}`,
+    (err, result) => {
+      if (err) {
+        next(err);
+        return;
+      }
+      let resultObject = result.rows;
+      if (!resultObject.length) {
+        next(new HttpError(404));
+        return;
+      }
+      let returnObject = {};
+      returnObject.name = resultObject[0].name;
+      returnObject.gameModes = resultObject.map(v => v.mode);
+      res.end(JSON.stringify(returnObject));
+  });
+};
+
 exports.put = function(req, res, endpoint, next) {
   let tempNext = next;
   next = function(err) {
@@ -110,28 +134,4 @@ exports.put = function(req, res, endpoint, next) {
     res.end();
   })
   .catch(error => next(error));
-};
-
-exports.get = function (req, res, endpoint, next) {
-  let host = endpoint.host,
-      port = endpoint.port;
-  pgRequest(`SELECT server.name, server_mode.mode
-     FROM server, server_mode WHERE server.adr = server_mode.server_adr
-     AND server.port = server_mode.server_port
-     AND server.adr = '${host}' AND server.port = ${port}`,
-    (err, result) => {
-      if (err) {
-        next(err);
-        return;
-      }
-      let resultObject = result.rows;
-      if (!resultObject.length) {
-        next(new HttpError(404));
-        return;
-      }
-      let returnObject = {};
-      returnObject.name = resultObject[0].name;
-      returnObject.gameModes = resultObject.map(v => v.mode);
-      res.end(JSON.stringify(returnObject));
-  });
 };
