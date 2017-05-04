@@ -1,32 +1,58 @@
 const pool = require('lib/postgres');
 const pgRequest = require('utils/postgres_handler');
+const sendError = require('error').sendError;
 const HttpError = require('error').HttpError;
 const utils = require('utils');
+const dbHandler = require('db');
 
-exports.get = function (req, res, endpoint, next) {
+exports.get = function(req, res, endpoint) {
+  endpoint = utils.parseEndpoint(endpoint);
+  if (!endpoint) {
+    sendError(res, 400);
+    return;
+  }
   let host = endpoint.host,
       port = endpoint.port;
-  pgRequest(`SELECT server.name, server_mode.mode
-     FROM server, server_mode WHERE server.adr = server_mode.server_adr
-     AND server.port = server_mode.server_port
-     AND server.adr = '${host}' AND server.port = ${port}`,
-    (err, result) => {
-      if (err) {
-        next(err);
-        return;
-      }
-      let resultObject = result.rows;
-      if (!resultObject.length) {
-        next(new HttpError(404));
-        return;
-      }
-      let returnObject = {};
-      returnObject.name = resultObject[0].name;
-      returnObject.gameModes = resultObject.map(v => v.mode);
-      res.end(JSON.stringify(returnObject));
+  dbHandler.getServer(host, port, (err, result) => {
+    if (err) {
+      sendError(res, err);
+      return;
+    }
+    res.end(result);
   });
 };
 
+exports.put = function(req, res, endpoint) {
+  endpoint = utils.parseEndpoint(endpoint);
+  if (!endpoint) {
+    sendError(res, 400);
+    return;
+  }
+  let host = endpoint.host,
+      port = endpoint.port;
+  utils.getRequest(req, (err, body) => {
+    if (err) {
+      sendError(res, err);
+      return;
+    }
+    try {
+      let serverInfo = JSON.parse(body);
+      dbHandler.putServer(host, port, serverInfo, function(err, result) {
+        if (err) {
+          sendError(res, err);
+          return;
+        }
+        res.end();
+      });
+    } catch (e) {
+      sendError(res, new HttpError(400, 'Bad JSON'));
+    }
+  });
+  
+};
+
+
+/*
 exports.put = function(req, res, endpoint, next) {
   let tempNext = next;
   next = function(err) {
@@ -34,8 +60,7 @@ exports.put = function(req, res, endpoint, next) {
     tempNext.apply(null, [].slice.call(arguments));
   };
 
-  let host = endpoint.host,
-      port = endpoint.port;
+
   new Promise((resolve, reject) => {
     // Async read req body
     let body = '';
@@ -135,3 +160,4 @@ exports.put = function(req, res, endpoint, next) {
   })
   .catch(error => next(error));
 };
+*/

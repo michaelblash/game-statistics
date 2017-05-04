@@ -10,23 +10,14 @@ module.exports = {
     '/': function (req, res) {
       routes.serveTest('public/test_app.html', res, sendError);
     },
-    '/static/:file': routes.serveStatic(req, res, file),
+    '/text_editor.js': /* routes.serveStatic(req, res, file), */
     function (req, res) {
       routes.serveTest('public/text_editor.js', res, sendError);
     },
     '/servers/info': function(req, res) {
       routes.serversInfo.get(req, res, sendError.bind(null, res));
     },
-    '/servers/:endpoint/info': function(req, res, endpoint) {
-      endpoint = parseEndpoint(endpoint);
-      if (!endpoint) {
-        sendError(res, new HttpError(404));
-        return;
-      }
-      routes.serverInfo.get(
-        req, res, endpoint, sendError.bind(null, res)
-      );
-    },
+    '/servers/:endpoint/info': routes.serverInfo.get,
     '/servers/:endpoint/matches/:timestamp':
       function(req, res, endpoint, timestamp) {
         endpoint = parseEndpoint(endpoint);
@@ -64,7 +55,9 @@ module.exports = {
     '/': function(req, res) {
       res.end();
     },
-    '/servers/:endpoint/info': function(req, res, endpoint) {
+    '/servers/:endpoint/info': routes.serverInfo.put,
+  /*  
+    function(req, res, endpoint) {
       endpoint = parseEndpoint(endpoint);
       if (!endpoint) {
         sendError(res, new HttpError(404));
@@ -74,6 +67,7 @@ module.exports = {
         req, res, endpoint, sendError.bind(null, res)
       );
     },
+  */
     '/servers/:endpoint/matches/:timestamp':
       function(req, res, endpoint, timestamp) {
         endpoint = parseEndpoint(endpoint);

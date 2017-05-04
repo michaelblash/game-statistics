@@ -14,6 +14,12 @@ exports.sendError = function(res, err, message = 'Internal Server Error') {
     res.end(err.message);
     return;
   }
+  let httpMessage = http.STATUS_CODES[err];
+  if (err instanceof Number && httpMessage) {
+    res.statusCode = err;
+    res.end(httpMessage);
+    return;
+  }
   res.statusCode = 500;
   res.end(message);
 };
