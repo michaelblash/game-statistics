@@ -1,4 +1,4 @@
-const pgRequest = require('utils/postgres_handler');
+const pgRequest = require('./postgres_request');
 
 module.exports = function(host, port, callback) {
   pgRequest(`SELECT server.name, server_mode.mode
@@ -21,4 +21,3 @@ module.exports = function(host, port, callback) {
       callback(null, JSON.stringify(returnObject));
   });
 };
-  

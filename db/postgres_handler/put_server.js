@@ -1,4 +1,4 @@
-const pool = require('lib/postgres');
+const pool = require('./postgres_pool');
 const utils = require('utils');
 const HttpError = require('error').HttpError;
 

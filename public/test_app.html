@@ -34,7 +34,7 @@
       overflow: scroll;
     }
   </style>
-  <script src="text_editor.js"></script>
+  <script src="static/text_editor.js"></script>
 </head>
 <body>
   <h1>Test Game Statistics Server</h1>
@@ -52,7 +52,7 @@
         </div>
         <button type="button" id="btn-get">GET</button>
       </div>
-      
+
       </div>
     <div class="result-wrap">
       <span></span>
@@ -64,12 +64,12 @@
         textEditor,
         btnGet = document.getElementById("btn-get");
     var resultSpan = form.querySelector(".result");
-    
+
     textEditor = new TextEditor({
       elem: textArea,
       tab: "  "
     });
-    
+
     form.onsubmit = function(event) {
       resultSpan.textContent = "";
       event.preventDefault();
@@ -83,7 +83,7 @@
       };
       xhr.send(textArea.value);
     };
-    
+
 
     btnGet.onclick = function(event) {
       resultSpan.textContent = "";

@@ -1,5 +1,3 @@
-const http = require('http');
-
 module.exports = function(req, callback) {
   let body = '';
   req.setEncoding('utf8');

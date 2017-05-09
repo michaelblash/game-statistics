@@ -1,4 +1,4 @@
-const pool = require('lib/postgres');
+const pool = require('./postgres_pool');
 
 
 module.exports = function(dbReq, callback) {
