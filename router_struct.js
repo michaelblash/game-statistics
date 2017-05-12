@@ -1,9 +1,14 @@
+/**
+ * The routing structure of the application
+ * that maps paths to the specific request handlers.
+ */
 const routes = require('./routes');
 const serveStatic = require('./lib/serve_static');
 
 module.exports = {
   'GET': {
     '/': function(req, res) {
+      // manually serve test_app.html file
       serveStatic(req, res, 'test_app.html');
     },
     '/static/:file': serveStatic,

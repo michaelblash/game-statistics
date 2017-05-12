@@ -1,3 +1,6 @@
+/**
+ * Retrieve asyncronously the body of the request.
+ */
 module.exports = function(req, callback) {
   let body = '';
   req.setEncoding('utf8');
