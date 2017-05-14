@@ -2,6 +2,7 @@
  * Get all the info of a specified match.
  * The info is retrieved from tables 'match' and 'player'.
  */
+
 const pgRequest = require('./postgres_request');
 const HttpError = require('error').HttpError;
 

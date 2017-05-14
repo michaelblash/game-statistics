@@ -1,5 +1,8 @@
-const pool = require('./postgres_pool');
+/**
+ * A shortcut utility function that helps to make simple one-line requests.
+ */
 
+const pool = require('./postgres_pool');
 
 module.exports = function(dbReq, callback) {
     pool.connect(function(err, client, done) {

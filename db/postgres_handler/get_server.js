@@ -1,3 +1,9 @@
+/**
+* Retrieve info of a single server and convert it into the special
+ * JSON format.
+ * The module uses tables `server` and `server_mode`.
+ */
+
 const pgRequest = require('./postgres_request');
 
 module.exports = function(host, port, callback) {

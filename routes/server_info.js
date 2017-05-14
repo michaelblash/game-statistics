@@ -3,6 +3,9 @@ const HttpError = require('error').HttpError;
 const utils = require('utils');
 const dbHandler = require('db');
 
+/**
+ * Retrieve server data about the specified server and pass it as a response.
+ */
 exports.get = function(req, res, endpoint) {
   endpoint = utils.parseEndpoint(endpoint);
   if (!endpoint) {
@@ -20,6 +23,9 @@ exports.get = function(req, res, endpoint) {
   });
 };
 
+/**
+ * Parse and put match result data to the DB.
+ */
 exports.put = function(req, res, endpoint) {
   endpoint = utils.parseEndpoint(endpoint);
   if (!endpoint) {

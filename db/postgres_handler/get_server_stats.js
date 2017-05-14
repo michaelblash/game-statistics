@@ -1,3 +1,8 @@
+/**
+ * Retrieve stats of a single server and return it in a special JSON format.
+ * The module uses tables `match` and `player`.
+ */
+
 const pgRequest = require('./postgres_request');
 const HttpError = require('error').HttpError;
 

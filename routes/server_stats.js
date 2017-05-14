@@ -3,6 +3,9 @@ const sendError = require('error').sendError;
 const utils = require('utils');
 const dbHandler = require('db');
 
+/**
+ * Retrieve stats of the specified server in DB and pass it as a response.
+ */
 exports.get = function(req, res, endpoint) {
   endpoint = utils.parseEndpoint(endpoint);
   if (!endpoint) {

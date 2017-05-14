@@ -1,3 +1,10 @@
+/**
+ * Retrieve stats of a single player and return it in a special
+ * JSON format. The function is divided into several different parts
+ * which execute sequentially.
+ * The module uses tables `match` and `player`.
+ */
+
 const pool = require('./postgres_pool');
 const HttpError = require('error').HttpError;
 const utils = require('utils');
@@ -97,7 +104,7 @@ module.exports = function(name, callback) {
       });
     });
   })
-  .then(response => { // make proper JSON and pass it to 'resolve'
+  .then(response => { // make a proper JSON and pass it to 'resolve'
     let finalObject = {};
     finalObject.totalMatchesPlayed = response.firstRequest.totalmatchesplayed;
     finalObject.totalMatchesWon = response.firstRequest.totalmatcheswon;

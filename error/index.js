@@ -1,5 +1,9 @@
 const http = require('http');
 
+/**
+ * Class representing a http error i.e. a response with a status code
+ * different from success codes (2xx)
+ */
 class HttpError extends Error {
   constructor(status, message = http.STATUS_CODES[status] || 'Error') {
     super(message);
@@ -8,6 +12,14 @@ class HttpError extends Error {
 }
 
 exports.HttpError = HttpError;
+
+/**
+ * A shortcut utility function to send an error of any class.
+ *
+ * @param {object} res http.ServerResponse instance
+ * @param {object} err Error instance
+ * @param {string} [message] the body of the response to be send
+ */
 exports.sendError = function(res, err, message = 'Internal Server Error') {
   if (err instanceof HttpError) {
     res.statusCode = err.status;

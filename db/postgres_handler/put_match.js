@@ -1,6 +1,6 @@
 /**
  * Put a match result into DB.
- * Affects tables 'match' and 'player'.
+ * The module affects tables `match` and `player`.
  */
 const HttpError = require('error').HttpError;
 const utils = require('utils');

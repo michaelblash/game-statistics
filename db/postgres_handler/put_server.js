@@ -1,3 +1,8 @@
+/**
+ * Insert or update server info in the DB.
+ * The module affects tables `server` and `server_mode`
+ */
+
 const pool = require('./postgres_pool');
 const utils = require('utils');
 const HttpError = require('error').HttpError;

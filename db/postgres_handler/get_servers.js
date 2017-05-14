@@ -1,3 +1,9 @@
+/**
+* Retrieve info of all the servers and convert it into the special
+ * JSON format.
+ * The module uses tables `server` and `server_mode`.
+ */
+
 const pgRequest = require('./postgres_request');
 const HttpError = require('error').HttpError;
 
@@ -18,6 +24,7 @@ module.exports = function(callback) {
       }
       let responseObject = dbResult.map(v => {
         let obj = {};
+        // extract the path part of the ip address.
         let host = v.adr.match(/^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/)[0];
         obj.endpoint = host + '-' + v.port;
         obj.info = {};
