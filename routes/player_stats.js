@@ -10,6 +10,7 @@ exports.get = function(req, res, name) {
     sendError(res, new HttpError(400, 'Bad name'));
     return;
   }
+
   dbHandler.getPlayerStats(name, function(err, result) {
     if (err) {
       sendError(res, err);

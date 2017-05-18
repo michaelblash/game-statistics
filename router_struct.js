@@ -18,6 +18,7 @@ module.exports = {
     '/servers/:endpoint/stats': routes.serverStats.get,
     '/players/:name/stats': routes.playerStats.get
   },
+
   'PUT': {
     '/servers/:endpoint/info': routes.serverInfo.put,
     '/servers/:endpoint/matches/:timestamp': routes.matchResult.put

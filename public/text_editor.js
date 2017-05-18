@@ -18,6 +18,7 @@ function TextEditor(options) {
       if (event.ctrlKey || event.altKey) {
         return true;
       }
+
       event.preventDefault();
       oldValue = this.value;
       selValue = oldValue.slice(selStart, selEnd);
@@ -27,6 +28,7 @@ function TextEditor(options) {
           counter++;
         }
       }
+      
       if (counter) {
         this.value = oldValue.slice(0, selStart) + tab + selValue + oldValue.slice(selEnd);
         this.selectionStart = selStart;

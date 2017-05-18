@@ -1,5 +1,5 @@
 /**
-* Retrieve info of a single server and convert it into the special
+ * Retrieve info of a single server and convert it into the special
  * JSON format.
  * The module uses tables `server` and `server_mode`.
  */
@@ -16,12 +16,15 @@ module.exports = function(host, port, callback) {
         callback(err);
         return;
       }
+
       let resultObject = result.rows;
       if (!resultObject.length) {
         callback(null, null);
         return;
       }
+
       let returnObject = {};
+      
       returnObject.name = resultObject[0].name;
       returnObject.gameModes = resultObject.map(v => v.mode);
       callback(null, JSON.stringify(returnObject));

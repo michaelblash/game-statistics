@@ -29,12 +29,15 @@ module.exports = function(host, port, callback) {
         callback(err);
         return;
       }
+
       let resultObject = result.rows;
       if (!resultObject.length) {
         callback(new HttpError(404));
         return;
       }
+
       let responseObj = {};
+
       responseObj.totalMatchesPlayed = resultObject[0].totalmatchesplayed;
       responseObj.maximumMatchesPerDay = resultObject[0].maximummatchesperday;
       responseObj.averageMatchesPerDay = resultObject[0].averagematchesperday;

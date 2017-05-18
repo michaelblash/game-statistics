@@ -1,5 +1,5 @@
 /**
-* Retrieve info of all the servers and convert it into the special
+ * Retrieve info of all the servers and convert it into the special
  * JSON format.
  * The module uses tables `server` and `server_mode`.
  */
@@ -17,14 +17,17 @@ module.exports = function(callback) {
         callback(err);
         return;
       }
+
       let dbResult = result.rows;
       if (!dbResult.length) {
         callback(new HttpError(404));
         return;
       }
+
       let responseObject = dbResult.map(v => {
         let obj = {};
-        // extract the path part of the ip address.
+        
+        // extract the ip part of the server identifier
         let host = v.adr.match(/^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/)[0];
         obj.endpoint = host + '-' + v.port;
         obj.info = {};

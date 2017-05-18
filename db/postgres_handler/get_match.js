@@ -19,11 +19,14 @@ module.exports = function(host, port, timestamp, callback) {
         callback(err);
         return;
       }
+
       let resultObject = result.rows;
+
       if (!resultObject.length) {
         callback(new HttpError(404));
         return;
       }
+
       let returnObject = {};
       returnObject.map = resultObject[0].map;
       returnObject.gameMode = resultObject[0].server_mode;
@@ -35,6 +38,7 @@ module.exports = function(host, port, timestamp, callback) {
           name: v.name, frags: v.frags, kills: v.kills, deaths: v.deaths
         }
       });
+      
       callback(null, JSON.stringify(returnObject));
   });
 };

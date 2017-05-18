@@ -11,13 +11,16 @@ const utils = require('utils');
 
 module.exports = function(name, callback) {
   name = utils.escapeString(name);
+
   new Promise((resolve, reject) => {
     pool.connect((err, client, done) => {
       if (err) {
         reject(err);
         return; // Yeah, that's for the sake of readability
       }
+
       let resultObject = {};
+
       new Promise((resolve, reject) => { // start sequence of queries
         client.query(`
           WITH matchesperday AS
@@ -54,16 +57,18 @@ module.exports = function(name, callback) {
           AS servfav`,
           [],
           function(err, result) {
-          if(err) {
-            reject(err);
-            return;
-          }
-          if (!result.rows.length) {
-            reject(new HttpError(400, 'No such a player'));
-            return;
-          }
-          resultObject.firstRequest = result.rows[0];
-          resolve();
+            if(err) {
+              reject(err);
+              return;
+            }
+
+            if (!result.rows.length) {
+              reject(new HttpError(400, 'No such a player'));
+              return;
+            }
+
+            resultObject.firstRequest = result.rows[0];
+            resolve();
         });
       })
       .then(response => new Promise((resolve, reject) => {
@@ -82,16 +87,18 @@ module.exports = function(name, callback) {
            max_place.server_port, max_place.match_time_end)`,
           [],
           function(err, result) {
-          if(err) {
-            reject(err);
-            return;
-          }
-          if (!result.rows.length) {
-            reject(new HttpError(400, 'No such a player'));
-            return;
-          }
-          resultObject.secondRequest = result.rows;
-          resolve();
+            if(err) {
+              reject(err);
+              return;
+            }
+
+            if (!result.rows.length) {
+              reject(new HttpError(400, 'No such a player'));
+              return;
+            }
+            
+            resultObject.secondRequest = result.rows;
+            resolve();
         });
       }))
       .then(response => {

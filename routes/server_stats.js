@@ -12,8 +12,10 @@ exports.get = function(req, res, endpoint) {
     sendError(res, new HttpError(404));
     return;
   }
+
   let host = endpoint.host,
       port = endpoint.port;
+
   dbHandler.getServerStats(host, port, function(err, result) {
     if (err) {
       sendError(res, err);
