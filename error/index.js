@@ -11,8 +11,6 @@ class HttpError extends Error {
   }
 }
 
-exports.HttpError = HttpError;
-
 /**
  * A shortcut utility function to send an error of any class.
  *
@@ -20,18 +18,23 @@ exports.HttpError = HttpError;
  * @param {object} err Error instance
  * @param {string} [message] the body of the response to be send
  */
-exports.sendError = function(res, err, message = 'Internal Server Error') {
+function sendError(res, err, message = 'Internal Server Error') {
   if (err instanceof HttpError) {
     res.statusCode = err.status;
     res.end(err.message);
     return;
   }
+
   let httpMessage = http.STATUS_CODES[err];
   if (err instanceof Number && httpMessage) {
     res.statusCode = err;
     res.end(httpMessage);
     return;
   }
+
   res.statusCode = 500;
   res.end(message);
-};
+}
+
+exports.HttpError = HttpError;
+exports.sendError = sendError;

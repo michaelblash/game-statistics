@@ -6,9 +6,7 @@ exports.escapeObject = escapeObject;
  * appropriate for relational database storage.
  */
 function escapeString(str) {
-  return str
-    .replace(/'+/g, `''`)
-    .replace(/`/, '\`');
+  return str.replace(/'+/g, `''`);
 }
 
 /**

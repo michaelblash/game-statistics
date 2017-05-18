@@ -8,9 +8,11 @@ const pool = require('./postgres_pool');
 
 module.exports = function(host, port, timestamp, matchInfo, callback) {
   let body = matchInfo;
+
   new Promise((resolve, reject) => {
     pool.connect((err, client, done) => {
       if (err) reject(err);
+      
       new Promise((resolve, reject) => { // start a transaction
         client.query('BEGIN', [], (err, result) => {
           if (err) reject(err);

@@ -17,6 +17,7 @@ module.exports = function(host, port, serverInfo, callback) {
   let conPromise = new Promise((resolve, reject) => {
     pool.connect((err, client, done) => {
       if (err) reject(err);
+
       new Promise((resolve, reject) => { // BEGIN;
         client.query('BEGIN', [], (err, result) => {
           if (err) reject(err);
@@ -51,6 +52,7 @@ module.exports = function(host, port, serverInfo, callback) {
           let valuesList = [],
               modes = serverInfo.gameModes,
               valuesString;
+              
           modes.forEach(v => {
             valuesList.push(`('${host}', ${port}, '${v}')`);
           });

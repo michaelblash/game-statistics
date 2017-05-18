@@ -18,13 +18,16 @@ exports.get = function (req, res, endpoint, timestamp) {
     sendError(res, new HttpError(400, 'Incorrect endpoint'));
     return;
   }
+
   timestamp = utils.checkTimestamp(timestamp);
   if (!timestamp) {
     sendError(res, new HttpError(400, 'Incorrect timestamp'));
     return;
   }
+
   let host = endpoint.host,
       port = endpoint.port;
+
   dbHandler.getMatch(host, port, timestamp, function(err, result) {
     if (err) {
       sendError(res, err);
@@ -43,18 +46,22 @@ exports.put = function(req, res, endpoint, timestamp) {
     sendError(res, new HttpError(400, 'Incorrect endpoint'));
     return;
   }
+
   timestamp = utils.checkTimestamp(timestamp);
   if (!timestamp) {
     sendError(res, new HttpError(400, 'Incorrect timestamp'));
     return;
   }
+
   let host = endpoint.host,
       port = endpoint.port;
+
   utils.getRequest(req, (err, body) => {
     if (err) {
       sendError(res, err);
       return;
     }
+
     // Try to parse body string.
     // It thows error if the body is not a valid JSON string.
     try {

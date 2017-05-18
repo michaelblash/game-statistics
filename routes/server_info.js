@@ -12,8 +12,10 @@ exports.get = function(req, res, endpoint) {
     sendError(res, 400);
     return;
   }
+
   let host = endpoint.host,
       port = endpoint.port;
+
   dbHandler.getServer(host, port, (err, result) => {
     if (err) {
       sendError(res, err);
@@ -32,13 +34,16 @@ exports.put = function(req, res, endpoint) {
     sendError(res, 400);
     return;
   }
+
   let host = endpoint.host,
       port = endpoint.port;
+
   utils.getRequest(req, (err, body) => {
     if (err) {
       sendError(res, err);
       return;
     }
+    
     try {
       let serverInfo = JSON.parse(body);
       dbHandler.putServer(host, port, serverInfo, function(err, result) {
