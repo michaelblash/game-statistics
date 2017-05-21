@@ -4,6 +4,7 @@
   "description": "RESTful game statistics server",
   "main": "app.js",
   "dependencies": {
+    "mongodb": "^2.2.26",
     "pg": "^6.1.5"
   },
   "devDependencies": {

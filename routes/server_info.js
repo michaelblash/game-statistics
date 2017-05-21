@@ -43,7 +43,7 @@ exports.put = function(req, res, endpoint) {
       sendError(res, err);
       return;
     }
-    
+
     try {
       let serverInfo = JSON.parse(body);
       dbHandler.putServer(host, port, serverInfo, function(err, result) {
