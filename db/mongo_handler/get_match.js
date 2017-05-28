@@ -6,12 +6,13 @@ let url = `mongodb://${config.dbConfig.options.host}:`
   + `${config.dbConfig.options.port}/`
   + `${config.dbConfig.options.database}`;
 
-module.exports = function(host, port, callback) {
+module.exports = function(host, port, timestamp, callback) {
   MongoClient.connect(url, function(err, db) {
-    let collServers = db.collection('servers');
+    let collServers = db.collection('matches');
     collServers.find({
-      endpoint: host + '-' + port
-    }, {
+      endpoint: host + '-' + port,
+      timestamp: timestamp
+     }, {
       _id: 0,
     }).toArray(function(err, docs) {
       if (!docs.length) {
