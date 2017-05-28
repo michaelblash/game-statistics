@@ -1,0 +1,14 @@
+{
+  "dbConfig": {
+    "name": "postgres",
+    "options": {
+      "user": "",
+      "database": "",
+      "password": "",
+      "host": "",
+      "port": 5432,
+      "max": 10,
+      "idleTimeoutMillis": 30000
+    }
+  }
+}
